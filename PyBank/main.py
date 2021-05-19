@@ -15,11 +15,16 @@ with open(bank_csv, 'r') as csv_file:
 
   #count number of rows
   lines= len(list(csv_reader))
+
   #return to top of file
   csv_file.seek(0)
 
-  header = next(csv_reader) 
+  # Skip header line
+  header = next(csv_reader)
+
+  #Add Profit and Loss column
   numbers = (float(row[1]) for row in csv_reader)
+
   total = sum(numbers)
 
 
@@ -28,10 +33,13 @@ with open(bank_csv, 'r') as csv_file:
   print(f"Total Months: ", lines)
 
   print (f"Total: ", float(total))
+
+  print (f"Average Change: ")
+
+  print (f"Greatest Increase in Profits: ")
+
+  print (f"Greatest Decrease in Profits: ")
     
-  # displaying the contents of the CSV file 
-  #or lines in csvFile: 
-        #print(lines) 
 
   # name of txt file 
 filename = os.path.join('analysis', "records.txt")
@@ -48,11 +56,6 @@ with open(filename, 'w') as txtfile:
     txtfile.write("\nAverage Change: ")
     txtfile.write(str(total))
     txtfile.write("\nGreatest Increase in Profits: ")
-    txtfile.write(str(total)) 
+    #txtfile.write(str(max(numbers))) 
     txtfile.write("\nGreatest Decrease in Profits: ")
-    txtfile.write(str(total)) 
-    # writing the fields 
-    #csvwriter.writerow(fields) 
-        
-    # writing the data rows 
-    #csvwriter.writerows(rows)
+    #txtfile.write(str(decrease)) 
