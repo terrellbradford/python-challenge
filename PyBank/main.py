@@ -2,14 +2,14 @@
 #Author T. Brafdord 
 #May 2021
 
-#import Moldules
+#Import Moldules
 import csv 
 import os
 
 #Path to data from Resource folder
 bank_csv = os.path.join('Resources', 'budget_data.csv')
 
-#initialize variables 
+#Initialize variables 
 lines = 0
 total = 0
 decrease = 0
@@ -20,66 +20,66 @@ dates = []
 month_profit_loss = []
 change = 0   
 
-# opening the CSV file 
+#Opening the CSV file 
 with open(bank_csv, 'r') as csv_file:
       
-  # reading the CSV file 
+  #Reading the CSV file 
   csv_reader = csv.reader(csv_file, delimiter = ",")
   
-  # to skip the header 
+  #To skip the header 
   header = next(csv_reader) 
-  #get row count
+  #Get row count
   lines= len(list(csv_reader))
-  # reset back to top of cvs
+  #Reset back to top of cvs
   csv_file.seek(0)
   ## to skip the header 
   header = next(csv_reader) 
  
-  #sum of profit/loss
+  #Sum of profit/loss
   numbers = (float(row[1]) for row in csv_reader)
   total = sum(numbers)
 
-  # reset back to top of cvs
+  #Reset back to top of cvs
   csv_file.seek(0)
-   # to skip the header 
+  #To skip the header 
   header = next(csv_reader) 
 
-  #skip line after header can't calculate monthly change properly with this line
+  #Skip line after header can't calculate monthly change properly with this line
   skip = next(csv_reader) 
 
-  # setting amount the 3rd row of profit/loss. 
-  # #Amount variable amount will always be one row ahead of change variable.
+  #Setting amount the 3rd row of profit/loss. 
+  #Amount variable amount will always be one row ahead of change variable.
   amount = float(skip[1])
 
-  #looping through CSV
+  #Looping through CSV
   for row in csv_reader:
     #track date column 1
     dates.append(row[0])
 
-    #setting variable change to current row value minus next row value
+    #Setting variable change to current row value minus next row value
     change = float(row[1]) - amount
-    #tracking monthly change
+    #Tracking monthly change
     month_profit_loss.append(change)
-    #setting next amount value
+    #Setting next amount value
     amount = float(row[1])
 
-    #retrieve monthly min and max change
+    #Retrieve monthly min and max change
     decrease = min(month_profit_loss)
     increase = max(month_profit_loss)
 
-    #print(month_profit_loss)
+    #Print(month_profit_loss)
     average_change = round(sum(month_profit_loss) / len(month_profit_loss),2)
 
-  #index methos return finds decrease and return date from preivous column 
+  #Index methos return finds decrease and return date from preivous column 
   decrease_index = month_profit_loss.index(decrease)
   decrease_date = dates[decrease_index]
   
-  #index methos return finds increase and return date from preivous column 
+  #Index methos return finds increase and return date from preivous column 
   increase_index = month_profit_loss.index(increase)
   increase_date = dates[increase_index]
 
   #Printing output to terminal 
-  print ("\nFinacial Analysis \n-----------------------------------------\n")
+  print ("\nFinacial Analysis \n-----------------------------------------")
 
   print(f"Total Months:", lines)
 
@@ -91,13 +91,13 @@ with open(bank_csv, 'r') as csv_file:
 
   print (f"Greatest Decrease in Profits: {decrease_date} ${float(decrease)}\n") 
 
-  # name of txt file 
+  #Name of txt file 
 filename = os.path.join('analysis', "PyBank_analysis.txt")
     
-# writing to txt file 
+#Open the output txt file 
 with open(filename, 'w') as txtfile:
-    # creating lines for output file
-    txtfile.write("Finacial Analysis \n-----------------------------------------\n \n")
+    #Creating lines for output file
+    txtfile.write("Finacial Analysis \n-----------------------------------------\n")
     txtfile.write("Total Months: ")
     txtfile.write(str(lines))
     txtfile.write(f"\nTotal: ${float(total)}")
